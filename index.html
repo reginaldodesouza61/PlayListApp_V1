@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MusicFlix - Seu Player de Mídia</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
+        
+</head>
+<body>
+    <div class="app-container">
+        <!-- Tela de Login -->
+        <div id="login-screen" class="screen active">
+            <div class="login-container">
+                <div class="logo">
+                    <i class="fas fa-music"></i>
+                    <h1>MusicFlix</h1>
+                </div>
+                <p class="subtitle">Sua biblioteca de mídia personalizada</p>
+                <div class="login-box">
+                    <h2>Entrar com</h2>
+                    <button id="google-login" class="google-btn">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg" alt="Google Logo">
+                        <span>Google</span>
+                    </button>
+                    <p class="login-info">É necessário fazer login para utilizar o aplicativo</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tela Principal -->
+        <div id="main-screen" class="screen">
+            <!-- Sidebar -->
+            <aside class="sidebar">
+                <div class="logo">
+                    <i class="fas fa-music"></i>
+                    <h1>MusicFlix</h1>
+                </div>
+                <nav class="menu">
+                    <ul>
+                        <li class="active"><a href="#home"><i class="fas fa-home"></i> <span>Início</span></a></li>
+                        <li><a href="#library"><i class="fas fa-folder"></i> <span>Biblioteca</span></a></li>
+                        <li><a href="#playlists"><i class="fas fa-list"></i> <span>Playlists</span></a></li>
+                        <li><a href="#upload"><i class="fas fa-upload"></i> <span>Upload</span></a></li>
+                        <li><a href="#youtube"><i class="fab fa-youtube"></i> <span>YouTube</span></a></li>
+                    </ul>
+                </nav>
+                <div class="user-profile">
+                    <img id="user-avatar" src="https://via.placeholder.com/40" alt="Avatar do usuário">
+                    <span id="user-name">Usuário</span>
+                    <button id="logout-btn"><i class="fas fa-sign-out-alt"></i></button>
+                </div>
+                <div class="developer-info">
+                    <p>Desenvolvido por Reginaldo de Souza</p>
+                </div>
+            </aside>
+
+            <!-- Conteúdo Principal -->
+            <main class="main-content">
+                <!-- Seção Início -->
+                <section id="home-section" class="content-section active">
+                    <h2>Bem-vindo ao MusicFlix</h2>
+                    <div class="welcome-cards">
+                        <div class="card">
+                            <i class="fas fa-upload"></i>
+                            <h3>Upload de Mídia</h3>
+                            <p>Faça upload de seus arquivos de áudio e vídeo locais</p>
+                        </div>
+                        <div class="card">
+                            <i class="fab fa-youtube"></i>
+                            <h3>Vídeos do YouTube</h3>
+                            <p>Adicione e reproduza vídeos do YouTube</p>
+                        </div>
+                        <div class="card">
+                            <i class="fas fa-list"></i>
+                            <h3>Playlists</h3>
+                            <p>Crie e salve suas playlists personalizadas</p>
+                        </div>
+                    </div>
+                    <div class="recent-section">
+                        <h3>Reproduzidos recentemente</h3>
+                        <div class="media-grid" id="recent-media">
+                            <!-- Conteúdo será preenchido via JavaScript -->
+                            <p class="empty-message">Nenhuma mídia reproduzida recentemente</p>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Seção Biblioteca -->
+                <section id="library-section" class="content-section">
+                    <h2>Sua Biblioteca</h2>
+                    <div class="filter-controls">
+                        <div class="search-box">
+                            <input type="text" id="library-search" placeholder="Buscar na biblioteca...">
+                            <i class="fas fa-search"></i>
+                        </div>
+                        <div class="filter-buttons">
+                            <button class="filter-btn active" data-filter="all">Todos</button>
+                            <button class="filter-btn" data-filter="audio">Áudio</button>
+                            <button class="filter-btn" data-filter="video">Vídeo</button>
+                            <button class="filter-btn" data-filter="youtube">YouTube</button>
+                        </div>
+                    </div>
+                    <div class="media-grid" id="library-media">
+                        <!-- Conteúdo será preenchido via JavaScript -->
+                        <p class="empty-message">Sua biblioteca está vazia</p>
+                    </div>
+                </section>
+
+                <!-- Seção Playlists -->
+                <section id="playlists-section" class="content-section">
+                    <h2>Suas Playlists</h2>
+                    <div class="playlist-controls">
+                        <button id="create-playlist-btn" class="primary-btn">
+                            <i class="fas fa-plus"></i> Nova Playlist
+                        </button>
+                    </div>
+                    <div class="playlists-grid" id="playlists-container">
+                        <!-- Conteúdo será preenchido via JavaScript -->
+                        <p class="empty-message">Você ainda não criou nenhuma playlist</p>
+                    </div>
+                </section>
+
+                <!-- Seção Upload -->
+                <section id="upload-section" class="content-section">
+                    <h2>Upload de Mídia</h2>
+                    <div class="upload-container">
+                        <div class="upload-area" id="drop-area">
+                            <i class="fas fa-cloud-upload-alt"></i>
+                            <p>Arraste e solte arquivos de áudio ou vídeo aqui</p>
+                            <p>ou</p>
+                            <label for="file-input" class="file-input-label">Selecionar Arquivos</label>
+                            <input type="file" id="file-input" accept="audio/*,video/*" multiple hidden>
+                        </div>
+                        <div class="upload-info">
+                            <h3>Formatos suportados</h3>
+                            <p><strong>Áudio:</strong> MP3, WAV, OGG, FLAC</p>
+                            <p><strong>Vídeo:</strong> MP4, WebM, OGV</p>
+                            <div class="upload-progress-container" id="upload-progress-container" style="display: none;">
+                                <h3>Progresso do Upload</h3>
+                                <div class="progress-list" id="progress-list">
+                                    <!-- Preenchido via JavaScript -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Seção YouTube -->
+                <section id="youtube-section" class="content-section">
+                    <h2>Adicionar Vídeo do YouTube</h2>
+                    <div class="youtube-container">
+                        <div class="youtube-form">
+                            <div class="input-group">
+                                <label for="youtube-url">URL do Vídeo</label>
+                                <input type="text" id="youtube-url" placeholder="https://www.youtube.com/watch?v=...">
+                            </div>
+                            <button id="add-youtube-btn" class="primary-btn">
+                                <i class="fas fa-plus"></i> Adicionar à Biblioteca
+                            </button>
+                        </div>
+                        <div class="youtube-preview" id="youtube-preview">
+                            <p>A prévia do vídeo aparecerá aqui</p>
+                        </div>
+                    </div>
+                    <div class="youtube-collection">
+                        <h3>Vídeos do YouTube Adicionados</h3>
+                        <div class="media-grid" id="youtube-media">
+                            <!-- Conteúdo será preenchido via JavaScript -->
+                            <p class="empty-message">Nenhum vídeo do YouTube adicionado</p>
+                        </div>
+                    </div>
+                </section>
+            </main>
+
+            <!-- Player de Mídia -->
+            <div class="media-player" id="media-player">
+                <div class="player-container">
+                    <div class="player-info">
+                        <div class="thumbnail" id="player-thumbnail">
+                            <i class="fas fa-music"></i>
+                        </div>
+                        <div class="info-text">
+                            <h4 id="player-title">Nenhuma mídia selecionada</h4>
+                            <p id="player-source">-</p>
+                        </div>
+                    </div>
+                    <div class="player-controls">
+                        <button id="shuffle-btn" class="control-btn"><i class="fas fa-random"></i></button>
+                        <button id="prev-btn" class="control-btn"><i class="fas fa-step-backward"></i></button>
+                        <button id="play-pause-btn" class="control-btn primary"><i class="fas fa-play"></i></button>
+                        <button id="next-btn" class="control-btn"><i class="fas fa-step-forward"></i></button>
+                        <button id="repeat-btn" class="control-btn"><i class="fas fa-redo"></i></button>
+                    </div>
+                    <div class="player-timeline">
+                        <span id="current-time">0:00</span>
+                        <div class="progress-bar">
+                            <div class="progress" id="progress-bar"></div>
+                        </div>
+                        <span id="total-time">0:00</span>
+                    </div>
+                    <div class="player-volume">
+                        <button id="mute-btn" class="control-btn"><i class="fas fa-volume-up"></i></button>
+                        <div class="volume-slider">
+                            <div class="volume-progress" id="volume-progress"></div>
+                        </div>
+                    </div>
+                    <button id="expand-btn" class="control-btn"><i class="fas fa-expand"></i></button>
+                </div>
+                <div class="player-expanded" id="player-expanded">
+                    <div class="player-video-container" id="player-video-container">
+                        <!-- Conteúdo de vídeo será inserido aqui -->
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modais -->
+        <div class="modal" id="playlist-modal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3>Nova Playlist</h3>
+                    <button class="close-modal">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <div class="input-group">
+                        <label for="playlist-name">Nome da Playlist</label>
+                        <input type="text" id="playlist-name" placeholder="Minha Playlist">
+                    </div>
+                    <div class="input-group">
+                        <label for="playlist-description">Descrição (opcional)</label>
+                        <textarea id="playlist-description" placeholder="Descreva sua playlist..."></textarea>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="secondary-btn cancel-modal">Cancelar</button>
+                    <button id="save-playlist-btn" class="primary-btn">Salvar</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal" id="add-to-playlist-modal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3>Adicionar à Playlist</h3>
+                    <button class="close-modal">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <div class="playlist-list" id="playlist-selection">
+                        <!-- Preenchido via JavaScript -->
+                        <p class="empty-message">Você ainda não criou nenhuma playlist</p>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="secondary-btn cancel-modal">Cancelar</button>
+                    <button id="confirm-add-to-playlist-btn" class="primary-btn">Adicionar</button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Notificações -->
+        <div class="notification-container" id="notification-container"></div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="js/auth.js"></script>
+    <script src="js/app.js"></script>
+    <script src="js/player.js"></script>
+    <script src="js/playlist.js"></script>
+    <script src="js/upload.js"></script>
+    <script src="js/youtube.js"></script>
+</body>
+</html>
