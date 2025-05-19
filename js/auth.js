@@ -24,7 +24,7 @@ document.addEventListener('DOMContentLoaded', function() {
     function renderGoogleButton() {
         // Substitui o botão customizado pelo botão do Google
         window.google.accounts.id.initialize({
-            client_id: 'AIzaSyCwQCAkq-Xmy4CJBC_oBr2q-5dAnhh5mWc', // <-- Substitua pelo seu Client ID
+            client_id: '101232726860-nk7jpi7h9ma65gg3fklev1ns2ogdpasm.apps.googleusercontent.com', // <-- Substitua pelo seu Client ID
             callback: handleCredentialResponse
         });
         window.google.accounts.id.renderButton(
